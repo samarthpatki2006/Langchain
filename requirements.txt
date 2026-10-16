@@ -5,3 +5,6 @@ streamlit
 langchain_community
 groq
 langchain-groq
+langserve
+uvicorn
+fastapi
