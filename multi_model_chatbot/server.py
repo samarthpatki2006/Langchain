@@ -20,6 +20,11 @@ llm2 = ChatGroq(
   max_tokens=512,
   temperature=0.1
 )
+llm3=ChatGroq(
+  model="qwen/qwen3.8-27b",
+  max_tokens=512,
+  temperature=0.1
+)
 
 class RequestBody(BaseModel):
   text: str
@@ -37,6 +42,14 @@ def openai_model_safeguard_120b(request: RequestBody):
   prompt = ChatPromptTemplate.from_template("Write a paragraph on the topic: {text}")
   output_parser = StrOutputParser()
   chain = prompt | llm2 | output_parser
+  res = chain.invoke({"text": request.text})
+  return {"result": res}
+
+@app.post(path="/qwen-model-27b")
+def qwen_model_27b(request: RequestBody):
+  prompt = ChatPromptTemplate.from_template("Write a paragraph on the topic: {text}")
+  output_parser = StrOutputParser()
+  chain = prompt | llm3 | output_parser
   res = chain.invoke({"text": request.text})
   return {"result": res}
 
